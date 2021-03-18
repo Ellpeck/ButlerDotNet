@@ -1,0 +1,19 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <OutputType>Exe</OutputType>
+        <TargetFramework>netcoreapp3.1</TargetFramework>
+
+        <Authors>Ellpeck</Authors>
+        <Description>A tool that automatically downloads and invokes itch.io's butler</Description>
+        <PackageTags>dotnet tool butler itch.io itch</PackageTags>
+        <PackageProjectUrl>https://github.com/Ellpeck/ButlerDotNet</PackageProjectUrl>
+        <RepositoryUrl>https://github.com/Ellpeck/ButlerDotNet</RepositoryUrl>
+        <PackageLicenseUrl>https://github.com/Ellpeck/ButlerDotNet/blob/main/LICENSE</PackageLicenseUrl>
+        <PackageIconUrl>https://raw.githubusercontent.com/Ellpeck/GameBundle/master/Logo.png</PackageIconUrl>
+        <PackAsTool>true</PackAsTool>
+        <ToolCommandName>dotnet-butler</ToolCommandName>
+        <VersionPrefix>1.0.0</VersionPrefix>
+    </PropertyGroup>
+
+</Project>
