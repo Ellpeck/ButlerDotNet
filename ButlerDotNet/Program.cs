@@ -4,6 +4,7 @@ using System.IO;
 using System.IO.Compression;
 using System.Net;
 using System.Reflection;
+using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 
 namespace ButlerDotNet {
@@ -13,11 +14,7 @@ namespace ButlerDotNet {
             var dll = new FileInfo(Assembly.GetExecutingAssembly().Location);
             var butlerDir = dll.Directory.CreateSubdirectory("Butler");
 
-            var channel = Environment.OSVersion.Platform switch {
-                PlatformID.MacOSX => "darwin-amd64",
-                PlatformID.Unix => "linux-amd64",
-                _ => "windows-amd64"
-            };
+            var channel = GetButlerChannel();
             Console.WriteLine($"Channel: {channel}");
 
             // check which butler version we have
@@ -57,6 +54,16 @@ namespace ButlerDotNet {
             });
             process.WaitForExit();
             return process.ExitCode;
+        }
+
+        private static string GetButlerChannel() {
+            if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
+                return "darwin-amd64";
+            if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
+                return "linux-amd64";
+            if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+                return "windows-amd64";
+            throw new ArgumentException("Unable to determine current operating system platform");
         }
 
     }

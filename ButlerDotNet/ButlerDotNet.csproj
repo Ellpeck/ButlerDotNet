@@ -13,7 +13,7 @@
         <PackageLicense>MIT</PackageLicense>
         <PackAsTool>true</PackAsTool>
         <ToolCommandName>dotnet-butler</ToolCommandName>
-        <VersionPrefix>1.0.1</VersionPrefix>
+        <VersionPrefix>1.0.2</VersionPrefix>
     </PropertyGroup>
 
     <ItemGroup>
