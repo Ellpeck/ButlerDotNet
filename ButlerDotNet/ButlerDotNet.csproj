@@ -15,7 +15,7 @@
         <PackageReadmeFile>README.md</PackageReadmeFile>
         <PackAsTool>true</PackAsTool>
         <ToolCommandName>butler</ToolCommandName>
-        <VersionPrefix>1.1.0</VersionPrefix>
+        <VersionPrefix>1.1.1</VersionPrefix>
     </PropertyGroup>
 
     <ItemGroup>
