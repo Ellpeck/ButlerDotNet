@@ -18,11 +18,14 @@ namespace ButlerDotNet {
             Console.WriteLine($"Channel: {channel}");
 
             // check which butler version we have
-            var version = new Version();
+            Version version;
             var versionFile = new FileInfo(Path.Combine(dll.Directory.FullName, "ButlerVersion.txt"));
             if (versionFile.Exists) {
                 using var reader = versionFile.OpenText();
-                Version.TryParse(await reader.ReadToEndAsync(), out version);
+                if (!Version.TryParse(await reader.ReadToEndAsync(), out version))
+                    version = new Version();
+            } else {
+                version = new Version();
             }
             Console.WriteLine($"Installed version: {version}");
 
