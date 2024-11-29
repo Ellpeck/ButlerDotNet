@@ -31,7 +31,7 @@ namespace ButlerDotNet {
 
             // get latest version of butler
             using var client = new HttpClient();
-            var link = $"https://broth.itch.ovh/butler/{channel}/LATEST";
+            var link = $"https://broth.itch.zone/butler/{channel}/LATEST";
             var latest = await client.GetStringAsync(link);
             Console.WriteLine($"Latest version: {latest}");
 
