@@ -2,7 +2,7 @@
 using System.Diagnostics;
 using System.IO;
 using System.IO.Compression;
-using System.Net;
+using System.Net.Http;
 using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Threading.Tasks;
@@ -14,7 +14,7 @@ namespace ButlerDotNet {
             var dll = new FileInfo(Assembly.GetExecutingAssembly().Location);
             var butlerDir = dll.Directory.CreateSubdirectory("Butler");
 
-            var channel = GetButlerChannel();
+            var channel = Program.GetButlerChannel();
             Console.WriteLine($"Channel: {channel}");
 
             // check which butler version we have
@@ -27,16 +27,19 @@ namespace ButlerDotNet {
             Console.WriteLine($"Installed version: {version}");
 
             // get latest version of butler
-            using var client = new WebClient();
+            using var client = new HttpClient();
             var link = $"https://broth.itch.ovh/butler/{channel}/LATEST";
-            var latest = await client.DownloadStringTaskAsync(link);
+            var latest = await client.GetStringAsync(link);
             Console.WriteLine($"Latest version: {latest}");
 
             // update butler if necessary
             if (!Version.TryParse(latest, out var latestVersion) || latestVersion > version) {
                 Console.WriteLine("Updating butler to " + latestVersion);
                 var zipFile = Path.Combine(dll.Directory.FullName, "butler.zip");
-                await client.DownloadFileTaskAsync($"{link}/archive/default", zipFile);
+                await using (var httpStream = await client.GetStreamAsync($"{link}/archive/default")) {
+                    await using (var fileStream = File.Create(zipFile))
+                        await httpStream.CopyToAsync(fileStream);
+                }
                 ZipFile.ExtractToDirectory(zipFile, butlerDir.FullName, true);
                 File.Delete(zipFile);
                 Console.WriteLine("Finished updating butler to " + latestVersion);
@@ -52,7 +55,7 @@ namespace ButlerDotNet {
                 Arguments = string.Join(' ', args),
                 CreateNoWindow = false
             });
-            process.WaitForExit();
+            await process.WaitForExitAsync();
             return process.ExitCode;
         }
 
