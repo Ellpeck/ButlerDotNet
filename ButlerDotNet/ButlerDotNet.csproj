@@ -2,7 +2,7 @@
 
     <PropertyGroup>
         <OutputType>Exe</OutputType>
-        <TargetFramework>netcoreapp3.1</TargetFramework>
+        <TargetFramework>net8.0</TargetFramework>
 
         <Authors>Ellpeck</Authors>
         <Description>A tool that automatically downloads and invokes itch.io's butler</Description>
